@@ -14,16 +14,16 @@ Un directorio telefónico que almacena los datos en una base de datos MySQL. El 
 + Un ejemplo de una implementación más completa de una aplicación web con Go, con autenticación de usuarios, paginación y muchas otras funcionalidades, lo pueden encontrar en https://github.com/ivan-avalos/linkbucket-go :3
 
 ## Terminología
-+ `API`. _Application Development Interface_. Es una interfaz que permite interactuar con un proceso o servicio de una manera sencilla. Hay varios tipos de API. En esta guía se manejará REST.
-+ `API REST`. REST significa _REpresentational State Tranfer_. Un API REST incorpora esta arquitectura. En el contexto de esta aplicación, la arquitectura REST permite solicitar transacciones y datos sin proporcionar acceso directo a la BD al cliente, ya que esto es muy peligroso.
-+ `JSON`. _JavaScript Object Notation._ Es el lenguaje de intercambio de información y representación de objetos más utilizado actualmente, ya que permite que tanto el servicio como el cliente, hablen el mismo «lenguaje».
-+ `Request`. Una petición al servidor con la información necesaria para realizar las operaciones correspondientes. Un ejemplo de request puede ser crear un contacto, para el cuál, se enviarán los datos del contacto a crear en formato JSON.
-+ `Response`. Es la respuesta del servidor a un request. Por ejemplo, si el request busca obtener una lista de contactos, el response contendrá esa lista de contactos en formato JSON, así como algunos parámetros adicionales. En caso de error, el response contendrá los detalles del error.
++ `API` _Application Development Interface_. Es una interfaz que permite interactuar con un proceso o servicio de una manera sencilla. Hay varios tipos de API. En esta guía se manejará REST.
++ `API REST` REST significa _REpresentational State Tranfer_. Un API REST incorpora esta arquitectura. En el contexto de esta aplicación, la arquitectura REST permite solicitar transacciones y datos sin proporcionar acceso directo a la BD al cliente, ya que esto es muy peligroso.
++ `JSON` _JavaScript Object Notation._ Es el lenguaje de intercambio de información y representación de objetos más utilizado actualmente, ya que permite que tanto el servicio como el cliente, hablen el mismo «lenguaje».
++ `Request` Una petición al servidor con la información necesaria para realizar las operaciones correspondientes. Un ejemplo de request puede ser crear un contacto, para el cuál, se enviarán los datos del contacto a crear en formato JSON.
++ `Response` Es la respuesta del servidor a un request. Por ejemplo, si el request busca obtener una lista de contactos, el response contendrá esa lista de contactos en formato JSON, así como algunos parámetros adicionales. En caso de error, el response contendrá los detalles del error.
 
 ## Estructura
-+ `Modelo`. Proporcionan la estructura de la tabla a manejar en forma de un objeto que contiene métodos para su acceso y manipulación. Por ejemplo, un modelo `Contact`.
-+ `Controlador`. Recibe los requests HTTP, realiza las operaciones necesarias utilizando los modelos y responde al cliente con los datos solicitados o un error. Por ejemplo: `ContactController`.
-+ `Ruta`. Permiten enrutar un request con el controlador correspondiente. Puede contener parámetros Por ejemplo: `/contact/:id` (el parámetro es `id` y un ejemplo de invocación es `/contact/1`).
++ `Modelo` Proporcionan la estructura de la tabla a manejar en forma de un objeto que contiene métodos para su acceso y manipulación. Por ejemplo, un modelo `Contact`.
++ `Controlador` Recibe los requests HTTP, realiza las operaciones necesarias utilizando los modelos y responde al cliente con los datos solicitados o un error. Por ejemplo: `ContactController`.
++ `Ruta` Permiten enrutar un request con el controlador correspondiente. Puede contener parámetros Por ejemplo: `/contact/:id` (el parámetro es `id` y un ejemplo de invocación es `/contact/1`).
 
 ## Requerimientos
 + Go ([Descargar](https://golang.org/))
