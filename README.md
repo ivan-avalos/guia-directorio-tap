@@ -6,7 +6,7 @@ En esta guía paso a paso para la materia de Tópicos Avanzados de Programación
 Un directorio telefónico que almacena los datos en una base de datos MySQL. El código seguirá buenas prácticas de desarrollo con Go y un modelo muy estándar para aplicaciones web. Permitirá añadir, obtener, modificar y eliminar contactos, mediante un API REST HTTP, utilizando [JSON](https://www.json.org/json-en.html) como lenguaje para intercambio de información. El API incluirá validación de requests y manejo de errores integrado, estará totalmente lista para ser consumida desde una aplicación web o móvil.
 
 ## Notas
-+ El proyecto funcional terminado lo pueden encontrar en github.com/ivan-avalos/directorio-tap para guiarse. :3
++ El proyecto funcional terminado lo pueden encontrar en https://github.com/ivan-avalos/directorio-tap para guiarse. :3
 + **Es altamente recomendable que tomen algún curso básico de Go antes de seguir esta guía, ya que manejaremos algunos conceptos que es necesario que conozcan para no confundirse.**
 + En el código, es muy importante que se respeten mayúsculas y minúsculas, ya que las funciones, variables y estructuras que comienzan con minúscula no son accesibles desde otros paquetes. Esto es una característica de Go.
 + En la sesión en la que trabajaremos con esta guía, explicaré un poco más a detalle los pasos.
@@ -14,22 +14,22 @@ Un directorio telefónico que almacena los datos en una base de datos MySQL. El 
 
 ## Terminología
 + `API`. _Application Development Interface_. Es una interfaz que permite interactuar con un proceso o servicio de una manera sencilla. Hay varios tipos de API. En esta guía se manejará REST.
-+ `API REST.` REST significa _REpresentational State Tranfer_. Un API REST incorpora esta arquitectura. En el contexto de esta aplicación, la arquitectura REST permite solicitar transacciones y datos sin proporcionar acceso directo a la BD al cliente, ya que esto es muy peligroso.
-+ `JSON.` _JavaScript Object Notation._ Es el lenguaje de intercambio de información y representación de objetos más utilizado actualmente, ya que permite que tanto el servicio como el cliente, hablen el mismo «lenguaje».
-+ `Request.` Una petición al servidor con la información necesaria para realizar las operaciones correspondientes. Un ejemplo de request puede ser crear un contacto, para el cuál, se enviarán los datos del contacto a crear en formato JSON.
-+ `Response.` Es la respuesta del servidor a un request. Por ejemplo, si el request busca obtener una lista de contactos, el response contendrá esa lista de contactos en formato JSON, así como algunos parámetros adicionales. En caso de error, el response contendrá los detalles del error.
++ `API REST`. REST significa _REpresentational State Tranfer_. Un API REST incorpora esta arquitectura. En el contexto de esta aplicación, la arquitectura REST permite solicitar transacciones y datos sin proporcionar acceso directo a la BD al cliente, ya que esto es muy peligroso.
++ `JSON`. _JavaScript Object Notation._ Es el lenguaje de intercambio de información y representación de objetos más utilizado actualmente, ya que permite que tanto el servicio como el cliente, hablen el mismo «lenguaje».
++ `Request`. Una petición al servidor con la información necesaria para realizar las operaciones correspondientes. Un ejemplo de request puede ser crear un contacto, para el cuál, se enviarán los datos del contacto a crear en formato JSON.
++ `Response`. Es la respuesta del servidor a un request. Por ejemplo, si el request busca obtener una lista de contactos, el response contendrá esa lista de contactos en formato JSON, así como algunos parámetros adicionales. En caso de error, el response contendrá los detalles del error.
 
 ## Estructura
-+ `Modelo.` Proporcionan la estructura de la tabla a manejar en forma de un objeto que contiene métodos para su acceso y manipulación. Por ejemplo, un modelo `Contact`.
-+ `Controlador.` Recibe los requests HTTP, realiza las operaciones necesarias utilizando los modelos y responde al cliente con los datos solicitados o un error. Por ejemplo: `ContactController`.
-+ `Ruta.` Permiten enrutar un request con el controlador correspondiente. Puede contener parámetros Por ejemplo: `/contact/:id` (el parámetro es `id` y un ejemplo de invocación es `/contact/1`).
++ `Modelo`. Proporcionan la estructura de la tabla a manejar en forma de un objeto que contiene métodos para su acceso y manipulación. Por ejemplo, un modelo `Contact`.
++ `Controlador`. Recibe los requests HTTP, realiza las operaciones necesarias utilizando los modelos y responde al cliente con los datos solicitados o un error. Por ejemplo: `ContactController`.
++ `Ruta`. Permiten enrutar un request con el controlador correspondiente. Puede contener parámetros Por ejemplo: `/contact/:id` (el parámetro es `id` y un ejemplo de invocación es `/contact/1`).
 
 ## Requerimientos
 + Go ([Descargar](https://golang.org/))
 + Git ([Descargar](https://git-scm.com/download/))
 + MySQL ([Descargar](https://dev.mysql.com/downloads/))
 + Postman ([Descargar](https://www.postman.com/downloads/))
-+ Visual Studio Code (opcional) ([Descargar](https://code.visualstudio.com)) (de preferencia instalar la extensión `Go`  después de instalar Go).
++ Visual Studio Code (opcional) ([Descargar](https://code.visualstudio.com)) (de preferencia instalar la extensión `Go` después de instalar Go).
 
 ## Inicialización
 1. Crear una carpeta llamada `directorio-tap` en `C:\Go\src`.
@@ -53,7 +53,7 @@ func main() {
 5. Abrir un CMD y escribir `cd C:\Go\src\directorio-tap` para entrar a la raíz del proyecto.
 6. Escribir `go run .` para compilar y ejecutar el programa.
 7. Si la salida del programa muestra un `Hello, World!`, ¡todo va bien hasta ahora! :3
-8. Crear una BD MySQL llamada `directorio_tap` y un usuario `directorio__tap`, con contraseña `muysegura1234` y con todos los privilegios para la base de datos creada.
+8. Crear una BD MySQL llamada `directorio_tap` y un usuario `directorio_tap`, con contraseña `muysegura1234` y con todos los privilegios para la base de datos creada.
 
 ## Variables de configuración (godotenv)
 1. Para configurar los parámetros de conexión a la base de datos, así como otras configuraciones que pueda requerir nuestro proyecto, crearemos un archivo en la raíz del proyecto llamado `.env`, y escribiremos lo siguiente:
