@@ -11,6 +11,7 @@ Un directorio telefónico que almacena los datos en una base de datos MySQL. El 
 + En el código, es muy importante que se respeten mayúsculas y minúsculas, ya que las funciones, variables y estructuras que comienzan con minúscula no son accesibles desde otros paquetes. Esto es una característica de Go.
 + En la sesión en la que trabajaremos con esta guía, explicaré un poco más a detalle los pasos.
 + Es posible que en una siguiente sesión, se realice una aplicación móvil que consuma el API REST que creamos en esta sesión, por lo que es muy importante que hagan funcionar bien esto.
++ Un ejemplo de una implementación más completa de una aplicación web con Go, con autenticación de usuarios, paginación y muchas otras funcionalidades, lo pueden encontrar en https://github.com/ivan-avalos/linkbucket-go :3
 
 ## Terminología
 + `API`. _Application Development Interface_. Es una interfaz que permite interactuar con un proceso o servicio de una manera sencilla. Hay varios tipos de API. En esta guía se manejará REST.
