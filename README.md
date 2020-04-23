@@ -70,16 +70,16 @@ MYSQL_PASS=muysegura1234
 package main
 
 import (
-	"log"
+    "log"
 
-	"github.com/joho/godotenv"
+    "github.com/joho/godotenv"
 )
 
 func main() {
-	// Load config from .env
-	if err := godotenv.Load(); err != nil {
-		log.Fatal(err) // Imprimir en consola y terminar el programa.
-	}
+    // Load config from .env
+    if err := godotenv.Load(); err != nil {
+        log.Fatal(err) // Imprimir en consola y terminar el programa.
+    }
 }
 ```
 
@@ -96,28 +96,28 @@ import (
 )
 
 type (
-	// Contact es el modelo del contacto
-	Contact struct {
-		gorm.Model
-		Name  string `gorm:"not null"` // No son comentarios, son parámetros «reflect» y proporcionan metadatos importantes al struct
-		Phone string `gorm:"not null"`
-	}
-	// RequestContact almacena los datos del contacto del request
-	RequestContact struct {
-		Name  string `json:"name" validate:"required"`
-		Phone string `json:"phone" validate:"required"`
-	}
-	// UpdateContact almacena los datos del contacto del update request
-	UpdateContact struct {
-		Name  string `json:"name"`
-		Phone string `json:"phone"`
-	}
-	// ResponseContact regresa los datos del contacto para el response
-	ResponseContact struct {
-		ID    uint   `json:"id"`
-		Name  string `json:"name"`
-		Phone string `json:"phone"`
-	}
+    // Contact es el modelo del contacto
+    Contact struct {
+        gorm.Model
+        Name  string `gorm:"not null"` // No son comentarios, son parámetros «reflect» y proporcionan metadatos importantes al struct
+        Phone string `gorm:"not null"`
+    }
+    // RequestContact almacena los datos del contacto del request
+    RequestContact struct {
+        Name  string `json:"name" validate:"required"`
+        Phone string `json:"phone" validate:"required"`
+    }
+    // UpdateContact almacena los datos del contacto del update request
+    UpdateContact struct {
+        Name  string `json:"name"`
+        Phone string `json:"phone"`
+    }
+    // ResponseContact regresa los datos del contacto para el response
+    ResponseContact struct {
+        ID    uint   `json:"id"`
+        Name  string `json:"name"`
+        Phone string `json:"phone"`
+    }
 )
 ```
 3. En la carpeta `database` y creamos el archivo `base.go`:
@@ -125,49 +125,49 @@ type (
 package database
 
 import (
-	"fmt"
-	"log"
-	"os"
-	
-	// MySQL driver
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+    "fmt"
+    "log"
+    "os"
+
+    // MySQL driver
+    _ "github.com/go-sql-driver/mysql"
+    "github.com/jinzhu/gorm"
 )
 
 var db *gorm.DB
 
 // Init se conecta a la BD y crea la tabla "contacts"
 func Init() {
-	username := os.Getenv("MYSQL_USER")
-	password := os.Getenv("MYSQL_PASS")
-	dbName := os.Getenv("MYSQL_DB")
-	dbHost := os.Getenv("MYSQL_HOST")
-	dbURI := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, dbHost, dbName) // Formatear un string con parámetros
-	log.Printf(dbURI) // Imprimir la URI de conexión para debug
-	
-	conn, err := gorm.Open("mysql", dbURI)  // Abrir la conexión con MySQL
-	if err != nil {
-		log.Fatal(err)
-	}
-	db = conn
-	db.Debug().AutoMigrate(&Contact{}) // Automáticamente generar tabla para el modelo
+    username := os.Getenv("MYSQL_USER")
+    password := os.Getenv("MYSQL_PASS")
+    dbName := os.Getenv("MYSQL_DB")
+    dbHost := os.Getenv("MYSQL_HOST")
+    dbURI := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, dbHost, dbName) // Formatear un string con parámetros
+    log.Printf(dbURI) // Imprimir la URI de conexión para debug
+
+    conn, err := gorm.Open("mysql", dbURI)  // Abrir la conexión con MySQL
+    if err != nil {
+        log.Fatal(err)
+    }
+    db = conn
+    db.Debug().AutoMigrate(&Contact{}) // Automáticamente generar tabla para el modelo
 }
 
 // DB regresa el objeto de base de datos
 func DB() *gorm.DB {
-	return db
+    return db
 }
 ```
 4. Añadir lo siguiente al `main.go`:
 ```go
 import (
-	// ...
-	"directorio-tap/database"
+    // ...
+    "directorio-tap/database"
 )
 
 func main() {
-	// ...
-	database.Init()
+    // ...
+    database.Init()
 }
 ```
 5. Ubicarnos en la raíz del proyecto en el CMD y ejecutar `go run .`.
@@ -179,31 +179,31 @@ func main() {
 ```go
 // Create inserta un contacto en la BD
 func (contact *Contact) Create() error {
-	return DB().Create(contact).Error
+    return DB().Create(contact).Error
 }
 ```
 3. Método `GetContacts`:
 ```go
 // GetContacts regresa todos los contactos en la BD
 func GetContacts() ([]*Contact, error) {
-	contacts := make([]*Contact, 0)
-	err := DB().Find(&contacts).Error
-	if err != nil {
-		return nil, err
-	}
-	return contacts, nil
+    contacts := make([]*Contact, 0)
+    err := DB().Find(&contacts).Error
+    if err != nil {
+        return nil, err
+    }
+    return contacts, nil
 }
 ```
 4. Método `GetContact`:
 ```go
 // GetContact regresa un contacto de la BD
 func GetContact(id uint) (*Contact, error) {
-	contact := new(Contact)
-	err := DB().Where("id = ?", id).First(contact).Error
-	if err != nil {
-		return nil, err
-	}
-	return contact, nil
+    contact := new(Contact)
+    err := DB().Where("id = ?", id).First(contact).Error
+    if err != nil {
+        return nil, err
+    }
+    return contact, nil
 }
 ```
 5. Método `Update`:
@@ -315,12 +315,12 @@ import (
 
 // CustomValidator is a custom validator
 type CustomValidator struct {
-	validator *validator.Validate
+    validator *validator.Validate
 }
 
 // Validate validates using a CustomValidator
 func (cv *CustomValidator) Validate(i interface{}) error {
-	return cv.validator.Struct(i)
+    return cv.validator.Struct(i)
 }
 
 func main() {
@@ -364,33 +364,33 @@ import (
 
 // CreateContact crea un contacto
 func CreateContact(c echo.Context) error {
-	requestContact := new(database.RequestContact)
-	if err := c.Bind(requestContact); err != nil { // Leer el JSON recibido y llenar el objeto con los datos
-		return err
-	}
-	if err := c.Validate(requestContact); err != nil { // Validar el request según las condiciones definidas
-		return err
-	}
-	contact := requestContact.GetContact()
-	if err := contact.Create(); err != nil {
-		return err
-	}
-	return c.JSON(http.StatusOK, contact.GetResponseContact()) // Regresar un response 200 OK con un JSON del contacto
+    requestContact := new(database.RequestContact)
+    if err := c.Bind(requestContact); err != nil { // Leer el JSON recibido y llenar el objeto con los datos
+        return err
+    }
+    if err := c.Validate(requestContact); err != nil { // Validar el request según las condiciones definidas
+        return err
+    }
+    contact := requestContact.GetContact()
+    if err := contact.Create(); err != nil {
+        return err
+    }
+    return c.JSON(http.StatusOK, contact.GetResponseContact()) // Regresar un response 200 OK con un JSON del contacto
 }
 ```
 4. Escribir la función `GetContacts`:
 ```go
 // GetContacts regresa todos los contactos
 func GetContacts(c echo.Context) error {
-	contacts, err := database.GetContacts()
-	if err != nil {
-		return err
-	}
-	responseContacts := make([]*database.ResponseContact, 0)
-	for _, c := range contacts { // Obtener los ResponseContact de los Contact obtenidos para el response
-		responseContacts = append(responseContacts, c.GetResponseContact())
-	}
-	return c.JSON(http.StatusOK, responseContacts)
+    contacts, err := database.GetContacts()
+    if err != nil {
+        return err
+    }
+    responseContacts := make([]*database.ResponseContact, 0)
+    for _, c := range contacts { // Obtener los ResponseContact de los Contact obtenidos para el response
+        responseContacts = append(responseContacts, c.GetResponseContact())
+    }
+    return c.JSON(http.StatusOK, responseContacts)
 }
 ```
 5. Escribir la función `GetContact`:
@@ -402,61 +402,61 @@ import (
 
 // GetContact regresa el contacto con un ID
 func GetContact(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id")) // Obtener parámetro :id de la ruta y convertir a int
-	if err != nil {
-		return err
-	}
-	contact, err := database.GetContact(uint(id))
-	if err != nil {
-		return err
-	}
-	return c.JSON(http.StatusOK, contact.GetResponseContact())
+    id, err := strconv.Atoi(c.Param("id")) // Obtener parámetro :id de la ruta y convertir a int
+    if err != nil {
+        return err
+    }
+    contact, err := database.GetContact(uint(id))
+    if err != nil {
+        return err
+    }
+    return c.JSON(http.StatusOK, contact.GetResponseContact())
 }
 ```
 6. Escribir la función `UpdateContact`:
 ```go
 // UpdateContact modifica el contacto con un ID
 func UpdateContact(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		return err
-	}
-	updateContact := new(database.UpdateContact)
-	if err := c.Bind(updateContact); err != nil {
-		return err
-	}
-	contact, err := database.GetContact(uint(id))
-	if err != nil {
-		return err
-	}
-	if updateContact.Name != "" { // Si se proporcionó el campo «name», actualizar el nombre del contacto con lo que tenga
-		contact.Name = updateContact.Name
-	}
-	if updateContact.Phone != "" { // Si se proporcionó el campo «phone», actualizar el teléfono del contacto con lo que tenga
-		contact.Phone = updateContact.Phone
-	}
-	if err := contact.Update(); err != nil {
-		return err
-	}
-	return c.JSON(http.StatusOK, contact.GetResponseContact())
+    id, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        return err
+    }
+    updateContact := new(database.UpdateContact)
+    if err := c.Bind(updateContact); err != nil {
+        return err
+    }
+    contact, err := database.GetContact(uint(id))
+    if err != nil {
+        return err
+    }
+    if updateContact.Name != "" { // Si se proporcionó el campo «name», actualizar el nombre del contacto con lo que tenga
+        contact.Name = updateContact.Name
+    }
+    if updateContact.Phone != "" { // Si se proporcionó el campo «phone», actualizar el teléfono del contacto con lo que tenga
+        contact.Phone = updateContact.Phone
+    }
+    if err := contact.Update(); err != nil {
+        return err
+    }
+    return c.JSON(http.StatusOK, contact.GetResponseContact())
 }
 ```
 7. Escribir la función `DeleteContact`:
 ```go
 // DeleteContact elimina el contacto con un ID
 func DeleteContact(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		return err
-	}
-	contact, err := database.GetContact(uint(id))
-	if err != nil {
-		return err
-	}
-	if err := contact.Delete(); err != nil {
-		return err
-	}
-	return c.JSON(http.StatusOK, contact.GetResponseContact())
+    id, err := strconv.Atoi(c.Param("id"))
+    if err != nil {
+        return err
+    }
+    contact, err := database.GetContact(uint(id))
+    if err != nil {
+        return err
+    }
+    if err := contact.Delete(); err != nil {
+        return err
+    }
+    return c.JSON(http.StatusOK, contact.GetResponseContact())
 }
 ```
 8. Añadir las siguientes líneas al `main.go` para definir las rutas y sus manejadores:
@@ -471,10 +471,10 @@ func main() {
     e := echo.New()
     // ...
     e.POST("/contact", controllers.CreateContact)
-	e.GET("/contact", controllers.GetContacts)
-	e.GET("/contact/:id", controllers.GetContact)
-	e.PUT("/contact/:id", controllers.UpdateContact)
-	e.DELETE("/contact/:id", controllers.DeleteContact)
+    e.GET("/contact", controllers.GetContacts)
+    e.GET("/contact/:id", controllers.GetContact)
+    e.PUT("/contact/:id", controllers.UpdateContact)
+    e.DELETE("/contact/:id", controllers.DeleteContact)
     // ...
 ```
 9. Ejecutar nuestro programa.
@@ -552,90 +552,90 @@ Un objeto de response fallido, debería contener los siguientes campos:
 package utils
 
 import (
-	"net/http"
+    "net/http"
 
-	"github.com/go-playground/validator"
-	"github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
-	"github.com/labstack/echo"
+    "github.com/go-playground/validator"
+    "github.com/go-sql-driver/mysql"
+    "github.com/jinzhu/gorm"
+    "github.com/labstack/echo"
 )
 
 type (
-	// Response representa un response base
-	Response struct {
-		Code int         `json:"code"`
-		Data interface{} `json:"data"`
-	}
-	// ErrorResponse representa un response de error
-	ErrorResponse struct {
-		Code    int         `json:"code"`
-		Type    string      `json:"type"`
-		Message string      `json:"message"`
-		Data    interface{} `json:"data"`
-	}
+    // Response representa un response base
+    Response struct {
+        Code int         `json:"code"`
+        Data interface{} `json:"data"`
+    }
+    // ErrorResponse representa un response de error
+    ErrorResponse struct {
+        Code    int         `json:"code"`
+        Type    string      `json:"type"`
+        Message string      `json:"message"`
+        Data    interface{} `json:"data"`
+    }
 )
 
 // BaseResponse regresa una response standard
 func BaseResponse(code int, data interface{}) Response {
-	return Response{
-		Code: code,
-		Data: data,
-	}
+    return Response{
+        Code: code,
+        Data: data,
+    }
 }
 
 func (er ErrorResponse) getErrorResponse() *echo.HTTPError {
-	return echo.NewHTTPError(er.Code, er)
+    return echo.NewHTTPError(er.Code, er)
 }
 
 func processValidationError(errs validator.ValidationErrors) *echo.HTTPError {
     // Pueden copiar y pegar esto si quieren
-	errsMap := make([]map[string]string, 0)
-	for _, err := range errs {
-		fieldErr := make(map[string]string)
-		fieldErr["field"] = err.Field()
-		fieldErr["tag"] = err.Tag()
-		if err.Param() != "" {
-			fieldErr["param"] = err.Param()
-		}
-		errsMap = append(errsMap, fieldErr)
-	}
-	return ErrorResponse{
-		Code:    http.StatusBadRequest,
-		Message: "Validation failed",
-		Type:    "validation_failed",
-		Data:    errsMap,
-	}.getErrorResponse()
+    errsMap := make([]map[string]string, 0)
+    for _, err := range errs {
+        fieldErr := make(map[string]string)
+        fieldErr["field"] = err.Field()
+        fieldErr["tag"] = err.Tag()
+        if err.Param() != "" {
+            fieldErr["param"] = err.Param()
+        }
+        errsMap = append(errsMap, fieldErr)
+    }
+    return ErrorResponse{
+        Code:    http.StatusBadRequest,
+        Message: "Validation failed",
+        Type:    "validation_failed",
+        Data:    errsMap,
+    }.getErrorResponse()
 }
 
 // ProcessError maneja adecuadamente un error para response
 func ProcessError(err error) *echo.HTTPError {
     // También pueden copiar y pegar esto
-	switch e := err.(type) {
-	case validator.ValidationErrors:
-		return processValidationError(e)
-	case *mysql.MySQLError:
-		return ErrorResponse{
-			Code:    http.StatusInternalServerError,
-			Type:    "database_error",
-			Message: "database_error",
-			Data:    e.Number,
-		}.getErrorResponse()
-	}
-	switch err {
-	case gorm.ErrRecordNotFound:
-		return ErrorResponse{
-			Code:    http.StatusNotFound,
-			Type:    "not_found_error",
-			Message: "Record not found",
-			Data:    err.Error(),
-		}.getErrorResponse()
-	}
-	return ErrorResponse{
-		Code:    http.StatusInternalServerError,
-		Type:    "unknown_error",
-		Message: "Unknown error",
-		Data:    nil,
-	}.getErrorResponse()
+    switch e := err.(type) {
+    case validator.ValidationErrors:
+        return processValidationError(e)
+    case *mysql.MySQLError:
+        return ErrorResponse{
+            Code:    http.StatusInternalServerError,
+            Type:    "database_error",
+            Message: "database_error",
+            Data:    e.Number,
+        }.getErrorResponse()
+    }
+    switch err {
+    case gorm.ErrRecordNotFound:
+        return ErrorResponse{
+            Code:    http.StatusNotFound,
+            Type:    "not_found_error",
+            Message: "Record not found",
+            Data:    err.Error(),
+        }.getErrorResponse()
+    }
+    return ErrorResponse{
+        Code:    http.StatusInternalServerError,
+        Type:    "unknown_error",
+        Message: "Unknown error",
+        Data:    nil,
+    }.getErrorResponse()
 }
 ```
 3. Ahora será necesario reemplazarlos `return err` en nuestro `contact-controller.go` con `return utils.ProcessError(err)`, además de añadir `directorio-tap/` a la lista de `imports` de hasta arriba.
