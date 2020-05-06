@@ -223,7 +223,7 @@ func (contact *Contact) Delete() error {
 ```
 7. Añadir lo siguiente al final de `main.go` para probar los métodos anteriores:
 ```go
-var ivan database.Contact
+var ivan *database.Contact
 // Create
 log.Println("Create:")
 if err := ivan.Create(); err != nil {
